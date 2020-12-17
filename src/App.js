@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import classes from './App.css';
 import styled from 'styled-components';
 
 import Person from './Person/Person';
-
+import ErrorBoundary from './Error Boundary/ErrorBoundary';
 const StyledButton=styled.button`
 background-color: ${props => props.alt ? 'red': 'green'};
   color: ${props => props.alt? 'white': 'white'};
@@ -102,47 +102,46 @@ background-color: ${props => props.alt ? 'red': 'green'};
 
 console.log(showPersons);
 let persons=null;
+let btnClass=[classes.button];
 if(showPersons===true)
 {
   persons= (
     <div>
       {personsState.persons.map((person,index)=>
       {
-        return <Person
+        return <ErrorBoundary><Person
         click={()=>deletePersonhandler(index)}
        name={person.name}
         age={person.age}
         changed={(event)=>nameChangedHandler(event,person.id)}  
         >
+         
         </Person>
+        </ErrorBoundary> 
         
       })
     }
     
       </div>
   );
-  // style.backgroundColor='red';
-  // style[':hover']={
-  //   backgroundColor: 'pink',
-  //   color:'black'
-  // }
+  btnClass.push(classes.red);
 }
 
 // console.log(showPersons);
 
-const classes=[];
+const Assignedclasses=[];
 if(personsState.persons.length<=2)
-    classes.push('red');//classes=[red]
+    Assignedclasses.push(classes.red);//classes=[red]
 if(personsState.persons.length<=1)
-  classes.push('bold');//classes=[red,bold]
+  Assignedclasses.push(classes.bold);//classes=[red,bold]
 
 return (
   
-      <div className="App">
+      <div className={classes.App}>
         <h1>Hi! I am a react App</h1>
-        <p className={classes.join(' ')}>How's it going?</p>
-        <StyledButton alt={showPersons} 
-        onClick={togglePersonsHandler}>Toggle Name</StyledButton>
+        <p className={Assignedclasses.join(' ')}>How's it going?</p>
+        <button className={btnClass.join(' ')}
+        onClick={togglePersonsHandler}>Toggle Name</button>
         
         {/* <Person name={personsState.persons[0].name} age={personsState.persons[0].age}></Person>
         <Person
